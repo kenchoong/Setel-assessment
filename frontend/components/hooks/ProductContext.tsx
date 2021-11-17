@@ -7,7 +7,7 @@ import React, {
 } from "react";
 
 export interface ProductContextInterface {
-  productId: string;
+  productId: number;
   productName: string;
   productDesc: string;
   productPrice: string;
