@@ -28,7 +28,7 @@ In frontend pretty much self-explanatory. Which includes all this pages:
 
 For backend, below is how I design the flow for the requirement mention at Thrid slide(General Scenario)
 
-![Alt text](./Setel-assessment.svg)
+![Alt text](./Setel-assessment.png)
 
 - **Step 1:**: User call to API gateway, `POST /orders` to create an order
 - **Step 2:**: APIgateway trigger to OrderServiceLambda
