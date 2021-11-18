@@ -122,8 +122,4 @@ Done. After a while, all the stack will be deployed, and output an URL. Then we 
 
   Done. Thats all you need to setup for frontend. Then deploy it to Vercel by connect with github, settle in 2 mins.
 
-## Some random thought
-
-At the end, I just realize that Step Function is the best solution for this assessment, cause Lambda is very hard to control the time at the background, certainly once hit, get response imediately. I didnt thought this at the beginning. My bad, but never mind, by now, it is what it is. 😂🤣
-
 ### Thats it. Thanks for reading. If anything, just let me know in issue.
