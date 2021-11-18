@@ -1,3 +1,5 @@
+Note: some mistake, need to add in a SNS and lambda, may will finish 5 hour later.
+
 ## Introduction
 
 This project is for this assesment: 2018.02.27-fullstack-engineer-practical in GoogleSlide.
@@ -127,6 +129,6 @@ Done. After a while, all the stack will be deployed, and output an URL. Then we 
 
 ## Some random thought
 
-At the end, I just realize that Step Function is the best solution for this assessment, cause Lambda is very hard to control the time at the background, certainly once hit, get response imediately. I didnt thought this at the beginning. If given me few more days, I will definitely try using Step Function. My mistake, but never mind, by now, it is what it is. By the way, let me know if able to give me few more days. 😂🤣
+At the end, I just realize that Step Function is the best solution for this assessment, cause Lambda is very hard to control the time at the background, certainly once hit, get response imediately. I didnt thought this at the beginning. If given me few more days, I will definitely try using Step Function. My bad, but never mind, by now, it is what it is. By the way, let me know if able to give me few more days. 😂🤣
 
 ### Thats it. Thanks for reading. If anything, just let me know in issue, I want to learn from you.
