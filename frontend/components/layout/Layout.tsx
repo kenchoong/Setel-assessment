@@ -12,7 +12,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         width="100%"
         height="100%"
         pb={3}
-        m={8}
+        m={[2, 2, 8, 8]}
         justify="center"
         align="center"
       >
