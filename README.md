@@ -1,5 +1,3 @@
-Note: some mistake, need to add in a SNS and lambda, may will finish 5 hour later.
-
 ## Introduction
 
 This project is for this assesment: 2018.02.27-fullstack-engineer-practical in GoogleSlide.
@@ -11,7 +9,7 @@ This project contain 2 parts. Frontend and CDK, both inside the relevant folder 
 - **Database:** DynamoDB
 - **Backend Deploy:** CDK
 - **Frontend Deploy:**: Vercel
-- **Aws service I used**: DynamoDB, Lambda, Api Gateway
+- **Aws service I used**: DynamoDB, Lambda, ApiGateway, SNS
 
 ## TLDR
 
@@ -31,19 +29,15 @@ In frontend pretty much self-explanatory. Which includes all this pages:
 
 For backend, below is how I design the flow for the requirement mention at Thrid slide(General Scenario)
 
-![Alt text](./Setel-assessment.png)
+![Alt text](./setel.png)
 
 - **Step 1:**: User call to API gateway, `POST /orders` to create an order
 - **Step 2:**: APIgateway trigger to OrderServiceLambda
-- **Step 3:**: OrderServiceLambda done created order and store in Db, called to `POST /payment` method
-- **Step 4:**: APIgateway trigger PaymentServiceLambda to process payment
-- **Step 5:**: PaymentServiceLambda will do the following:
-  1. produce the "payment status" to either Confirmed or Declined.
-  2. I use RXjs to loop through and array with status like `[Initializing, Processing, Confirmed/Declined]`
-  3. Every 3 second will call `PUT /orders/orderId` to update the value from the array to update the Payment status in `OrderService`
-  4. You can see the code here:
-- **Step 6:**: In client, user will long polling using RXjs,
-
+- **Step 3:**: OrderServiceLambda done created order and store in Db, trigger a SNS topic.
+- **Step 4:**: SNS topic will call to a Subsriber Lambda, some random logic
+- **Step 5:**: Subscriber will call to `POST /payment` to trigger Payment Lambda via APIgateway, decide whether the payment status is `Confirmed/Declined`.
+- **Step 6:**: Payment pass back to Order by trigger APIgateway `PUT /order/:orderId` to update the status of the order according to Payment Status
+- **Step 7:**: All the time, client will Long Polling to wait for Payment result.
   1.  every 5 seconds will client will call to `GET /orders/status/:userId/:orderId`
   2.  this will return the payment status wheter is `Initializing, Processing, Confirmed/Declined`
   3.  Depends on each `status`, the client will response accordingly

@@ -2,7 +2,11 @@ import * as cdk from "@aws-cdk/core";
 import { resolve } from "path";
 import { Table, AttributeType, BillingMode } from "@aws-cdk/aws-dynamodb";
 import { Function, Code, Runtime, LayerVersion } from "@aws-cdk/aws-lambda";
+import { Topic } from "@aws-cdk/aws-sns";
+import { LambdaSubscription } from "@aws-cdk/aws-sns-subscriptions";
 import * as apigateway from "@aws-cdk/aws-apigateway";
+import { PolicyStatement, Effect, Policy } from "@aws-cdk/aws-iam";
+import { SERVFAIL } from "dns";
 
 export class ApiConstruct extends cdk.Construct {
   constructor(scope: cdk.Construct, id: string) {
@@ -27,6 +31,27 @@ export class ApiConstruct extends cdk.Construct {
       description: "Api Handler Dependencies",
     });
 
+    // SNS stuff
+    let fn = new Function(this, "SubscribeOrderCreatedFunction", {
+      code: Code.fromAsset(resolve(__dirname, "../lambda/sns-sub/dist"), {
+        exclude: ["node_modules"],
+      }),
+      handler: "index.handler",
+      timeout: cdk.Duration.seconds(30),
+      runtime: Runtime.NODEJS_14_X,
+      layers: [lambdaLayer],
+      environment: {
+        //NODE_PATH: "$NODE_PATH:/opt",
+        tableName: table.tableName,
+      },
+    });
+
+    const topic = new Topic(this, "SubscribeOrderCreatedTopic", {
+      displayName: "Order is created, publish via this topic",
+    });
+
+    topic.addSubscription(new LambdaSubscription(fn));
+
     // Order Function
     const OrderHandler = new Function(this, "OrderHandler", {
       code: Code.fromAsset(resolve(__dirname, "../lambda/order/dist"), {
@@ -38,10 +63,24 @@ export class ApiConstruct extends cdk.Construct {
       environment: {
         //NODE_PATH: "$NODE_PATH:/opt",
         tableName: table.tableName,
+        topicArn: topic.topicArn,
       },
       timeout: cdk.Duration.seconds(30),
     });
     table.grantReadWriteData(OrderHandler);
+
+    const permissionToTriggerTopic = new PolicyStatement({
+      sid: "LambdaTriggerSnsPolicy",
+      actions: ["sns:Publish"],
+      resources: [topic.topicArn],
+      effect: Effect.ALLOW,
+    });
+
+    OrderHandler.role?.attachInlinePolicy(
+      new Policy(this, "TopicPolicy", {
+        statements: [permissionToTriggerTopic],
+      })
+    );
 
     // Payment Function
     const PaymentHandler = new Function(this, "PaymentHandler", {

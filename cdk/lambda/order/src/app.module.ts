@@ -24,6 +24,10 @@ const client = new AWS.DynamoDB.DocumentClient({
       provide: TOKEN.TABLE_NAME,
       useValue: process.env.tableName,
     },
+    {
+      provide: TOKEN.TOPIC_ARN,
+      useValue: process.env.topicArn,
+    },
   ],
 })
 export class AppModule {}

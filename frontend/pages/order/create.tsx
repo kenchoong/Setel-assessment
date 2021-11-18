@@ -27,6 +27,8 @@ const CreateOrderPage: React.FC<createProps> = ({}) => {
           if (data.ok) {
             setOrderData(data);
             router.push("/payment");
+          } else {
+            setErrorMsg("Having problem trigger payment");
           }
         })
         .catch((error) => {

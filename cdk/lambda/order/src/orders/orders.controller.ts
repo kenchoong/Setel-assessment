@@ -12,7 +12,7 @@ import {
   Res,
 } from '@nestjs/common';
 import { TOKEN } from './token';
-import { DynamoDB } from 'aws-sdk';
+import { DynamoDB, SNS } from 'aws-sdk';
 import { v4 } from 'uuid';
 import { sanitizeIdsForClient } from './utils';
 import { CreateOrderDto, UpdateOrderDto } from './CreateOrderDto';
@@ -29,6 +29,7 @@ let dynamoDB = new AWS.DynamoDB.DocumentClient({
 export class OrderController {
   constructor(
     @Inject(TOKEN.TABLE_NAME) private tableName: string,
+    @Inject(TOKEN.TOPIC_ARN) private topicArn: string,
     private dc: DynamoDB.DocumentClient,
     private orderService: OrderService,
   ) {}
@@ -61,20 +62,46 @@ export class OrderController {
         req.apiGateway.event.headers.Host +
         '/' +
         req.apiGateway.event.requestContext.stage;
-       this.orderService.processPayment(
+
+      /*
+      this.orderService.processPayment(
         orderId,
         body.userId,
         Number(body.productId),
         url,
-      );
+      );*/
 
-      return {
-        ok: true,
-        created: {
-          id: orderId,
-        },
-        payment: 'processing',
+      const payload = {
+        url: url,
+        productId: body.productId,
+        orderId: orderId,
+        userId: body.userId,
       };
+
+      let published = new SNS({ apiVersion: '2010-03-31' })
+        .publish({
+          Message: JSON.stringify(payload),
+          TopicArn: this.topicArn,
+        })
+        .promise();
+
+      return published
+        .then((res) => {
+          console.log(res);
+          return {
+            ok: true,
+            created: {
+              id: orderId,
+            },
+            payment: 'processing',
+          };
+        })
+        .catch((err) => {
+          return {
+            ok: false,
+            message: 'cant create order',
+          };
+        });
     } else {
       return {
         ok: false,
