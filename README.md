@@ -39,7 +39,7 @@ For backend, below is how I design the flow for the requirement mention at Thrid
 - **Step 5:** Subscriber will call to `POST /payment` to trigger Payment Lambda via APIgateway, decide whether the payment status is `Confirmed/Declined`.
 - **Step 6:** Payment pass back to Order by trigger APIgateway `PUT /order/:orderId` to update the status of the order according to Payment Status
 - **Step 7:** All the time, client will Long Polling to wait for Payment result.
-  1.  every 5 seconds will client will call to `GET /orders/status/:userId/:orderId`
+  1.  every 5 seconds, client will call to `GET /orders/status/:userId/:orderId`
   2.  this will return the payment status wheter is `Initializing, Processing, Confirmed/Declined`
   3.  Depends on each `status`, the client will response accordingly
   4.  Until if `status` is confirmed, then will wait for 3 seconds, then tell user is `Delivered`, and update in DB as well.
