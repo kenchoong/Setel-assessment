@@ -353,7 +353,20 @@
     "@aws-cdk/core" "1.132.0"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-sns@1.132.0":
+"@aws-cdk/aws-sns-subscriptions@^1.132.0":
+  version "1.132.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-sns-subscriptions/-/aws-sns-subscriptions-1.132.0.tgz#9ffff9ee3330c65da589e8d5f03dd124a0de98ba"
+  integrity sha512-uudEaWiOogzz6FDaNwgEaP7cTkgKVbqSHFSTgh22c0mgpDru/DZNrSr30v6MszaNPgjCgy36wNL7Noj3W6c1VQ==
+  dependencies:
+    "@aws-cdk/aws-iam" "1.132.0"
+    "@aws-cdk/aws-kms" "1.132.0"
+    "@aws-cdk/aws-lambda" "1.132.0"
+    "@aws-cdk/aws-sns" "1.132.0"
+    "@aws-cdk/aws-sqs" "1.132.0"
+    "@aws-cdk/core" "1.132.0"
+    constructs "^3.3.69"
+
+"@aws-cdk/aws-sns@1.132.0", "@aws-cdk/aws-sns@^1.132.0":
   version "1.132.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-sns/-/aws-sns-1.132.0.tgz#46ccb99ed60f7ecf74e097444ab2bf1b9330c95a"
   integrity sha512-BMjI/eE7eZYDdu77dBKA3r6HjEn0diDiviXSB1Tu1FgBlaNl9qm2uk1lAiKHby0yA4DkdcTGgWZW7sdlTRkISQ==

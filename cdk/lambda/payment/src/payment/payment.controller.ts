@@ -2,8 +2,8 @@ import { Controller, Post, Body, Req } from '@nestjs/common';
 import { ProcessPaymentDto } from './ProcessPaymentDto';
 import { PaymentService } from './payment.service';
 
-import { from, of } from 'rxjs';
-import { map, concatMap, delay } from 'rxjs/operators';
+import { from, lastValueFrom, of, timer, firstValueFrom } from 'rxjs';
+import { map, concatMap, delay, take, tap } from 'rxjs/operators';
 import * as lambda from 'aws-lambda';
 import { nextTick } from 'process';
 
@@ -22,12 +22,15 @@ export class PaymentController {
     const status2 = ['Declined'];
 
     if (Number(body.productId) === 1) {
-      this.paymentService.updateOrderStatus(
-        body.orderId,
-        body.userId,
-        'Confirmed',
-        url,
+      const res = await lastValueFrom(
+        this.paymentService.updateOrderStatus(
+          body.orderId,
+          body.userId,
+          'Confirmed',
+          url,
+        ),
       );
+      console.log(res.data);
 
       return {
         ok: true,
@@ -59,12 +62,23 @@ export class PaymentController {
           },
         });*/
     } else {
-      this.paymentService.updateOrderStatus(
-        body.orderId,
-        body.userId,
-        'Declined',
-        url,
+      const res = await lastValueFrom(
+        this.paymentService.updateOrderStatus(
+          body.orderId,
+          body.userId,
+          'Declined',
+          url,
+        ),
       );
+      console.log(res.data);
+
+      const res1 = await lastValueFrom(
+        timer(5000).pipe(
+          tap((x) => console.log(x)),
+          take(5),
+        ),
+      );
+      console.log(res1);
 
       return {
         ok: true,

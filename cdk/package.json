@@ -25,7 +25,9 @@
     "@aws-cdk/aws-dynamodb": "^1.132.0",
     "@aws-cdk/aws-lambda": "^1.132.0",
     "@aws-cdk/aws-lambda-nodejs": "^1.132.0",
-    "@aws-cdk/core": "1.107.0",
+    "@aws-cdk/aws-sns": "^1.132.0",
+    "@aws-cdk/aws-sns-subscriptions": "^1.132.0",
+    "@aws-cdk/core": "1.132.0",
     "@vendia/serverless-express": "^4.5.2",
     "source-map-support": "^0.5.16"
   }

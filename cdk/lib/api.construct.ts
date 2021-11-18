@@ -39,6 +39,7 @@ export class ApiConstruct extends cdk.Construct {
         //NODE_PATH: "$NODE_PATH:/opt",
         tableName: table.tableName,
       },
+      timeout: cdk.Duration.seconds(30),
     });
     table.grantReadWriteData(OrderHandler);
 
@@ -48,7 +49,8 @@ export class ApiConstruct extends cdk.Construct {
         exclude: ["node_modules"],
       }),
       handler: "index.handler",
-      runtime: Runtime.NODEJS_12_X,
+      timeout: cdk.Duration.seconds(30),
+      runtime: Runtime.NODEJS_14_X,
       layers: [lambdaLayer],
       environment: {
         //NODE_PATH: "$NODE_PATH:/opt",

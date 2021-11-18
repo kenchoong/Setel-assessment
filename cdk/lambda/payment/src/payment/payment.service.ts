@@ -1,5 +1,6 @@
 import { Injectable, HttpService } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map, concatMap, delay } from 'rxjs/operators';
 
 @Injectable()
 export class PaymentService {
@@ -17,6 +18,8 @@ export class PaymentService {
       userId: userId,
     };
 
-    return this.httpService.put(hostUrl, payload);
+    return this.httpService
+      .put(hostUrl, payload)
+      .pipe(concatMap((x) => of(x).pipe(delay(3000))));
   }
 }

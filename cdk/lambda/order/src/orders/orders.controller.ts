@@ -17,7 +17,7 @@ import { v4 } from 'uuid';
 import { sanitizeIdsForClient } from './utils';
 import { CreateOrderDto, UpdateOrderDto } from './CreateOrderDto';
 import { OrderService } from './order.service';
-import * as lambda from 'aws-lambda';
+import { lastValueFrom } from 'rxjs';
 
 /*
 let dynamoDB = new AWS.DynamoDB.DocumentClient({
@@ -61,7 +61,7 @@ export class OrderController {
         req.apiGateway.event.headers.Host +
         '/' +
         req.apiGateway.event.requestContext.stage;
-      this.orderService.processPayment(
+       this.orderService.processPayment(
         orderId,
         body.userId,
         Number(body.productId),
