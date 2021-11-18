@@ -29,7 +29,7 @@ const OrderCell: React.FC<OrderCellProps> = ({
 
   return (
     <Flex
-      direction={["column", "column", "row", "row"]}
+      direction={["column", "column", "column", "row"]}
       width="100%"
       justify="space-between"
       borderWidth="3px"

@@ -31,7 +31,7 @@ const ProductList: React.FC<ProductListProps> = ({}) => {
     router.push("/order/create");
   };
   return (
-    <Flex direction="row" width="50%" mt={8}>
+    <Flex direction={["column", "column", "column", "row"]} width="50%" mt={8}>
       {products &&
         products.map((product) => {
           return (
