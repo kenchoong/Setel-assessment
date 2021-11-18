@@ -17,7 +17,6 @@ export const createOrder = async (product: ProductContextInterface) => {
 };
 
 export const checkOrderStatus = async (userId: string, orderId: string) => {
-  console.log("Here get called");
   const path = "/orders/status/" + orderId + "/" + userId;
 
   return API.get(path);
@@ -40,7 +39,6 @@ export const updateOrderStatus = async (
   userId: string,
   status: string
 ) => {
-  console.log("here get called");
   const path = "/orders/" + orderId;
 
   const body = {

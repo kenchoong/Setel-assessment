@@ -30,7 +30,6 @@ const PaymentPage: React.FC<paymentProps> = ({}) => {
 
   const observe = (orderId: string) => {
     const isContinue = (orderStatus: string) => {
-      //console.log(orderStatus);
       return !arr.includes(orderStatus);
     };
 
@@ -53,7 +52,6 @@ const PaymentPage: React.FC<paymentProps> = ({}) => {
       timer(0, 3000).pipe(
         take(4),
         tap((x) => {
-          //console.log("line 60", x);
           setDeliverSecond(x);
           setSecondRemain(secondRemain - x);
         })
@@ -71,13 +69,10 @@ const PaymentPage: React.FC<paymentProps> = ({}) => {
 
         if (res.orderStatus === "Confirmed") {
           const del = deliver().subscribe((x) => {
-            //console.log(x);
             if (secondRemain - x < 0) {
-              console.log("get called");
               setIsLoading(true);
               updateOrderStatus(orderData.created.id, "1234", "Delivered")
                 .then((res) => {
-                  //console.log(res);
                   setIsLoading(false);
                   setDelivered(true);
                   del.unsubscribe();
