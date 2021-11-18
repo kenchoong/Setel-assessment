@@ -63,14 +63,6 @@ export class OrderController {
         '/' +
         req.apiGateway.event.requestContext.stage;
 
-      /*
-      this.orderService.processPayment(
-        orderId,
-        body.userId,
-        Number(body.productId),
-        url,
-      );*/
-
       const payload = {
         url: url,
         productId: body.productId,

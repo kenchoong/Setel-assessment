@@ -69,6 +69,7 @@ export class ApiConstruct extends cdk.Construct {
     });
     table.grantReadWriteData(OrderHandler);
 
+    // topic permission, attach to OrderHandler
     const permissionToTriggerTopic = new PolicyStatement({
       sid: "LambdaTriggerSnsPolicy",
       actions: ["sns:Publish"],

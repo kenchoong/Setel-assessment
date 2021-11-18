@@ -21,15 +21,4 @@ export const handler = async (event: any = {}): Promise<any> => {
   console.log("response in 21", response);
 
   return response.data.ok;
-
-  /*
-  if (response.data.ok) {
-    return {
-      isPaymentCalled: true,
-    };
-  } else {
-    return {
-      isPaymentCalled: false,
-    };
-  }*/
 };
