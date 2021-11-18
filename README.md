@@ -13,10 +13,11 @@ This project contain 2 parts. Frontend and CDK, both inside the relevant folder 
 
 ## TLDR
 
-In order to save your time, I have hosted this project, so you can take a look.
+In order to save your time, I have hosted this project in vercel, so you can take a look.
 
-**Website:** Go to the website I provide (Dont want to state here to avoid abuse.)
+**Website:** [here](setel-assessment.vercel.app)
 
+> Just demonstrate how the data flow according to the assessment 
 ## How it works?
 
 In frontend pretty much self-explanatory. Which includes all this pages:
@@ -31,13 +32,13 @@ For backend, below is how I design the flow for the requirement mention at Thrid
 
 ![Alt text](./setel.png)
 
-- **Step 1:**: User call to API gateway, `POST /orders` to create an order
-- **Step 2:**: APIgateway trigger to OrderServiceLambda
-- **Step 3:**: OrderServiceLambda done created order and store in Db, trigger a SNS topic.
-- **Step 4:**: SNS topic will call to a Subsriber Lambda, some random logic
-- **Step 5:**: Subscriber will call to `POST /payment` to trigger Payment Lambda via APIgateway, decide whether the payment status is `Confirmed/Declined`.
-- **Step 6:**: Payment pass back to Order by trigger APIgateway `PUT /order/:orderId` to update the status of the order according to Payment Status
-- **Step 7:**: All the time, client will Long Polling to wait for Payment result.
+- **Step 1:** User call to API gateway, `POST /orders` to create an order
+- **Step 2:** APIgateway trigger to OrderServiceLambda
+- **Step 3:** OrderServiceLambda done created order and store in Db, trigger a SNS topic.
+- **Step 4:** SNS topic will call to a Subsriber Lambda, some random logic
+- **Step 5:** Subscriber will call to `POST /payment` to trigger Payment Lambda via APIgateway, decide whether the payment status is `Confirmed/Declined`.
+- **Step 6:** Payment pass back to Order by trigger APIgateway `PUT /order/:orderId` to update the status of the order according to Payment Status
+- **Step 7:** All the time, client will Long Polling to wait for Payment result.
   1.  every 5 seconds will client will call to `GET /orders/status/:userId/:orderId`
   2.  this will return the payment status wheter is `Initializing, Processing, Confirmed/Declined`
   3.  Depends on each `status`, the client will response accordingly
@@ -125,4 +126,4 @@ Done. After a while, all the stack will be deployed, and output an URL. Then we 
 
 At the end, I just realize that Step Function is the best solution for this assessment, cause Lambda is very hard to control the time at the background, certainly once hit, get response imediately. I didnt thought this at the beginning. If given me few more days, I will definitely try using Step Function. My bad, but never mind, by now, it is what it is. By the way, let me know if able to give me few more days. 😂🤣
 
-### Thats it. Thanks for reading. If anything, just let me know in issue, I want to learn from you.
+### Thats it. Thanks for reading. If anything, just let me know in issue.
