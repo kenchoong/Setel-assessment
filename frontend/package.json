@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "export": "next build && next export"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.7.0",

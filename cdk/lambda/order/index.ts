@@ -4,6 +4,7 @@ import { createServer, proxy, Response } from 'aws-serverless-express';
 import { eventContext } from 'aws-serverless-express/middleware';
 import * as express from 'express';
 import { createApp } from './src/main';
+import { ResponseAddAccessTokenToHeaderInterceptor } from './src/orders/response-add-access-token-to-header.interceptor';
 
 let cachedServer: Server;
 
@@ -12,6 +13,7 @@ async function bootstrap(): Promise<Server> {
 
   const app = await createApp(expressApp);
   app.use(eventContext());
+  app.useGlobalInterceptors(new ResponseAddAccessTokenToHeaderInterceptor());
   await app.init();
 
   return createServer(expressApp);

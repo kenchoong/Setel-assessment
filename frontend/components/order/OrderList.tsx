@@ -26,7 +26,7 @@ const OrderList: React.FC<OrderListProps> = ({}) => {
   }
 
   return (
-    <Flex direction="column" width="50%">
+    <Flex direction="column" width={["100%", "100%", "50%", "50%"]}>
       <Heading size="lg" mt={8} mb={8}>
         Orders
       </Heading>

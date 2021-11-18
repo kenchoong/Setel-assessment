@@ -7,8 +7,9 @@ This project contain 2 parts. Frontend and CDK, both inside the relevant folder 
 - **Frontend:** Nextjs
 - **Backend:** Nestjs with aws Lambda
 - **Database:** DynamoDB
-- **Deploy:** aws CDK
-- **Aws service I used**: DynamoDB, Lambda, Api Gateway, Amplify
+- **Backend Deploy:** CDK
+- **Frontend Deploy:**: Vercel
+- **Aws service I used**: DynamoDB, Lambda, Api Gateway
 
 ## TLDR
 
@@ -122,6 +123,10 @@ Done. After a while, all the stack will be deployed, and output an URL. Then we 
   NEXT_PUBLIC_API_URL="YOUR_API_URL_HERE"
   ```
 
-  Done. Thats all you need to setup for frontend. Then we can deploy it to Vercel or Amplify. I use Amplify, can [read documentation here](https://docs.amplify.aws/guides/hosting/nextjs/q/platform/js/#getting-started)
+  Done. Thats all you need to setup for frontend. Then deploy it to Vercel by connect with github, settle in 2 mins.
+
+## Some random thought
+
+At the end, I just realize that Step Function is the best solution for this assessment, cause Lambda is very hard to control the time at the background, certainly once hit, get response imediately. I didnt thought this at the beginning. If given me few more days, I will definitely try using Step Function. My mistake, but never mind, by now, it is what it is. By the way, let me know if able to give me few more days. 😂🤣
 
 ### Thats it. Thanks for reading. If anything, just let me know in issue, I want to learn from you.

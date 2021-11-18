@@ -6,8 +6,8 @@ import { CdkStack } from "../lib/cdk-stack";
 const app = new cdk.App();
 
 const demoStack = {
-  account: "", // here need to put in ur account
-  region: "", // and ur region
+  account: "147816830747", // here need to put in ur account
+  region: "ap-southeast-1", // and ur region
 };
 
 new CdkStack(app, "CdkStack", { env: demoStack });

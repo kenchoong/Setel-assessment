@@ -8,6 +8,8 @@ import {
   NotFoundException,
   Put,
   Request,
+  Response,
+  Res,
 } from '@nestjs/common';
 import { TOKEN } from './token';
 import { DynamoDB } from 'aws-sdk';
@@ -59,9 +61,12 @@ export class OrderController {
         req.apiGateway.event.headers.Host +
         '/' +
         req.apiGateway.event.requestContext.stage;
-      this.orderService
-        .processPayment(orderId, body.userId, Number(body.productId), url)
-        .subscribe((res) => console.log(res));
+      this.orderService.processPayment(
+        orderId,
+        body.userId,
+        Number(body.productId),
+        url,
+      );
 
       return {
         ok: true,

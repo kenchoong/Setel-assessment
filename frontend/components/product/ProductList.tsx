@@ -36,7 +36,7 @@ const ProductList: React.FC<ProductListProps> = ({}) => {
         products.map((product) => {
           return (
             <Flex
-              width="30%"
+              width={["100%", "100%", "50%", "30%"]}
               direction="column"
               key={product.productId}
               m={5}
