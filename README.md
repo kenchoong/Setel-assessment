@@ -122,4 +122,13 @@ Done. After a while, all the stack will be deployed, and output an URL. Then we 
 
   Done. Thats all you need to setup for frontend. Then deploy it to Vercel by connect with github, settle in 2 mins.
 
+## Testing 
+
+```
+$ cd cdk/lambda/order
+
+$ yarn test
+
+```
+
 ### Thats it. Thanks for reading. If anything, just let me know in issue.
