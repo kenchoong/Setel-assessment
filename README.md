@@ -122,10 +122,23 @@ Done. After a while, all the stack will be deployed, and output an URL. Then we 
 
   Done. Thats all you need to setup for frontend. Then deploy it to Vercel by connect with github, settle in 2 mins.
 
-## Testing 
+## Unit Testing 
+
+For backend
+
+``` 
+// from root folder 
+$ cd cdk/lambda/order
+
+$ yarn test
 
 ```
-$ cd cdk/lambda/order
+
+For Frontend, using React-testing-library and MSW to intercept the request
+
+```
+// from root folder 
+$ cd Frontend
 
 $ yarn test
 

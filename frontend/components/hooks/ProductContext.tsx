@@ -19,7 +19,7 @@ interface ProductContextProps {
   children: React.ReactNode;
 }
 
-interface ProductResultInterface {
+export interface ProductResultInterface {
   interestedProduct: ProductContextInterface | null;
   setInterestedProduct: Dispatch<ProductContextInterface>;
 }

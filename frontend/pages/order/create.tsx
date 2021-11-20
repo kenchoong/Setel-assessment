@@ -12,7 +12,7 @@ const CreateOrderPage: React.FC<createProps> = ({}) => {
   const { interestedProduct } = useProduct();
   const router = useRouter();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const { orderData, setOrderData } = usePayment();
+  const { setOrderData } = usePayment();
 
   const handleClick = () => {
     if (interestedProduct) {
@@ -21,8 +21,7 @@ const CreateOrderPage: React.FC<createProps> = ({}) => {
       // here go to payment page
       createOrder(interestedProduct)
         .then((res) => {
-          console.log(res.data);
-
+          //console.log(res.data);
           const data = res.data;
           if (data.ok) {
             setOrderData(data);
@@ -32,7 +31,7 @@ const CreateOrderPage: React.FC<createProps> = ({}) => {
           }
         })
         .catch((error) => {
-          setErrorMsg("Having problem to create your order ");
+          setErrorMsg("Having problem to create your order");
         });
     }
   };
@@ -56,6 +55,8 @@ const CreateOrderPage: React.FC<createProps> = ({}) => {
               Create an order
             </Button>
           </Box>
+
+          {errorMsg && <Text>{errorMsg}</Text>}
         </Flex>
       )}
     </Layout>

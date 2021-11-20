@@ -24,7 +24,7 @@ interface PaymentContextProps {
 
 const defaultValue = {};
 
-interface PaymentResultInterface {
+export interface PaymentResultInterface {
   orderData: PaymentContextInterface | null;
   setOrderData: Dispatch<PaymentContextInterface>;
 }

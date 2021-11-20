@@ -5,15 +5,25 @@ import {
   getOrderByOrderId,
   updateOrderStatus,
 } from "../../services/orderDataSource";
-import { OrderCellProps } from "../../components/order/OrderCell";
 import Layout from "../../components/layout/Layout";
 
-interface OrderDetailsPageProps {}
+export interface OrderDetailsPageProps {}
+
+export interface CellProps {
+  orderId: string;
+  userId: string;
+  productId: string;
+  productName: string;
+  productPrice: string;
+  orderStatus: string;
+  createdAt: string;
+  productDesc: string;
+}
 
 const OrderDetailsPage: React.FC<OrderDetailsPageProps> = ({}) => {
   const router = useRouter();
   const { orderId } = router.query;
-  const [order, setOrder] = useState<OrderCellProps | null>(null);
+  const [order, setOrder] = useState<CellProps | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -31,7 +41,6 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = ({}) => {
   ];
 
   const handleClick = () => {
-    setIsUpdating(true);
     updateOrderStatus(orderId as string, "1234", "cancelled")
       .then((res) => {
         setIsUpdating(false);
@@ -108,7 +117,10 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = ({}) => {
               <Button
                 colorScheme={orderStatus === "cancelled" ? "red" : "green"}
                 isLoading={isUpdating}
-                onClick={handleClick}
+                onClick={() => {
+                  setIsUpdating(true);
+                  handleClick();
+                }}
               >
                 Cancel Order
               </Button>
@@ -119,7 +131,7 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = ({}) => {
             <Flex>
               <Text fontSize="lg">Grant total:</Text>
               <Text ml={4} fontSize="lg">
-                {order.totalOrderAmount}
+                {order.productPrice}
               </Text>
             </Flex>
 

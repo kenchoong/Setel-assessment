@@ -30,7 +30,6 @@ export const getAllOrderByUserId = async (userId: string) => {
 
 export const getOrderByOrderId = async (userId: string, orderId: string) => {
   const path = "/orders/" + userId + "/" + orderId;
-
   return API.get(path);
 };
 

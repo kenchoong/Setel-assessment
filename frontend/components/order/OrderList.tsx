@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Flex, Heading, Text } from "@chakra-ui/react";
 import { getAllOrderByUserId } from "../../services/orderDataSource";
 import OrderCell from "./OrderCell";
+import Layout from "../layout/Layout";
 
 interface OrderListProps {}
 
@@ -16,13 +17,17 @@ const OrderList: React.FC<OrderListProps> = ({}) => {
         setOrders(res.data);
       })
       .catch((error) => {
-        //console.log(error.message);
         setError("Here have some error");
       });
   }, []);
 
   if (orders === null) {
-    return <Text>Your order later will display here</Text>;
+    return (
+      <>
+        <Text>Your order later will display here</Text>;
+        {error && <Text>{error}</Text>}
+      </>
+    );
   }
 
   return (
@@ -41,7 +46,7 @@ const OrderList: React.FC<OrderListProps> = ({}) => {
               productName={order.productName}
               productId={order.productId}
               orderStatus={order.orderStatus}
-              totalOrderAmount={order.totalOrderAmout}
+              totalOrderAmount={order.productPrice}
               productDesc={order.productDesc}
               createdAt={order.createdAt}
             />
