@@ -2,6 +2,8 @@
 
 Some experiment. Explain the whole flow, explain it in my own word, only for demonstration. Now already using Lambda, so dont see the point to using this. lol
 
+Mainly in `lambda/order` service
+
 ### Folder structure is like this:
 
 - API

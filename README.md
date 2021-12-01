@@ -11,9 +11,9 @@ This project contain 2 parts. Frontend and CDK, both inside the relevant folder 
 - **Frontend Deploy:**: Vercel
 - **Aws service I used**: DynamoDB, Lambda, ApiGateway, SNS
 
-## Domain Driven Design 
+## Domain Driven Design
 
-Try to use DDD. Can read [here](https://github.com/kenchoong/Setel-assessment/tree/some-experiments/cdk/lambda/order)
+Try to use DDD in `cdk/lambda/order` . Can read [here](https://github.com/kenchoong/Setel-assessment/tree/some-experiments/cdk/lambda/order)
 
 ## TLDR
 
@@ -21,7 +21,8 @@ In order to save your time, I have hosted this project in vercel, so you can tak
 
 **Website:** [here](setel-assessment.vercel.app)
 
-> Just demonstrate how the data flow according to the assessment 
+> Just demonstrate how the data flow according to the assessment
+
 ## How it works?
 
 In frontend pretty much self-explanatory. Which includes all this pages:
@@ -126,12 +127,12 @@ Done. After a while, all the stack will be deployed, and output an URL. Then we 
 
   Done. Thats all you need to setup for frontend. Then deploy it to Vercel by connect with github, settle in 2 mins.
 
-## Unit Testing 
+## Unit Testing
 
 For backend
 
-``` 
-// from root folder 
+```
+// from root folder
 $ cd cdk/lambda/order
 
 $ yarn test
@@ -141,7 +142,7 @@ $ yarn test
 For Frontend, using React-testing-library and MSW to intercept the request
 
 ```
-// from root folder 
+// from root folder
 $ cd Frontend
 
 $ yarn test
