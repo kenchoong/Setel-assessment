@@ -10,6 +10,11 @@ import { TOKEN } from './orders/token';
 import { DynamooseModule } from 'nestjs-dynamoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { ApiModule } from './API/ApiModule';
+import { DomainModule } from './Domain/DomainModule';
+import { QueriesModel } from './Queries/QueriesModel';
+import { DatabaseModule } from './Database/DbModule';
+
 /*
 const client = new AWS.DynamoDB.DocumentClient({
   region: 'localhost',
@@ -21,7 +26,7 @@ const client = new AWS.DynamoDB.DocumentClient({
     HttpModule,
     DynamooseModule.forRootAsync({
       // here defined all the thing in
-      /*
+      /* TODO: Database stuff here
     aws?: {
       accessKeyId?: string;
       secretAccessKey?: string;
@@ -32,7 +37,12 @@ const client = new AWS.DynamoDB.DocumentClient({
     logger?: boolean | LoggerService;
     */
     }),
+    ApiModule,
+    QueriesModel,
+    DomainModule,
   ],
+
+  // TODO: Remove all this, if really use my solution, just put here for now.
   controllers: [AppController, OrderController],
   providers: [
     AppService,

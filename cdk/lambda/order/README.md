@@ -96,6 +96,14 @@ export class OrderController {
 
 ```
 
+### Advantages
+
+Decouple the implementation
+
+> await this.getOneOrder.Get(userId, orderId);
+
+In this line, I no need to care how `Get` will implement the stuff. Whether next time I want to use dynamoDb or not also never mind. What I only need to know is, the `Get` function exists, it need to get 2 parameters, then done.
+
 ### Problems right now.
 
 Right now I havent complete this, because I use DynamoDB single table design. I want to use `@nestjs-dynamoose` library. But all the example provided is without `PK, SK` only `hashkey` but no `rangeKey`. Therefore I havent figure it out.
