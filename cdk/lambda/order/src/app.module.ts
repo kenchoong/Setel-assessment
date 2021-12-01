@@ -7,6 +7,9 @@ import { OrderController } from './orders/orders.controller';
 import { DynamoDB } from 'aws-sdk';
 import { TOKEN } from './orders/token';
 
+import { DynamooseModule } from 'nestjs-dynamoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 /*
 const client = new AWS.DynamoDB.DocumentClient({
   region: 'localhost',
@@ -14,7 +17,22 @@ const client = new AWS.DynamoDB.DocumentClient({
 });*/
 
 @Module({
-  imports: [HttpModule],
+  imports: [
+    HttpModule,
+    DynamooseModule.forRootAsync({
+      // here defined all the thing in
+      /*
+    aws?: {
+      accessKeyId?: string;
+      secretAccessKey?: string;
+      region?: string;
+    };
+    local?: boolean | string;
+    model?: ModelOptionsOptional;
+    logger?: boolean | LoggerService;
+    */
+    }),
+  ],
   controllers: [AppController, OrderController],
   providers: [
     AppService,

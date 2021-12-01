@@ -1,73 +1,103 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+## Break down the whole OrderController to Domain Driven Design (DDD)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Some experiment. Explain the whole flow, explain it in my own word, only for demonstration. Now already using Lambda, so dont see the point to using this. lol
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### Folder structure is like this:
 
-## Description
+- API
+- Database
+- Domain
+- Queries
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Each folder will be 1 module, and that module will handle different things, the folder name is self-explanatory.
 
-## Installation
+### API
 
-```bash
-$ npm install
+Characteristic
+
+- Inside this module will contain all the endpoint for the app.
+- Right now it just have 1 name `Order` for `/order`
+- For real world use case it can contain `Payment`, `Marketing`, `Sales`, `Product`, `ProductCategories` and so on.
+- Each endpont will have the respectively module
+- Inside each module will defined DTO(Data Transfer Object) which is the data we will recieve from the request, into bunch of different files.
+- At the end will gel it up in `ApiModule` which is `nestjs` module class.
+- So we can use it inside `app.module.ts` which will the main module for the whole the app.
+
+### Database
+
+- Just defined the connection with Dynamodb, and export it as a module
+
+### Domain
+
+This is the most important module. This act like a `connector` between `View` (API module AKA entry point for user to interact with our app) to our Database where we store data.
+
+Same like `API`, will separate it each folder for each domain which means all the related function regarding to an `Entity`, example `Order`, `Payment`, `Product` and so on, each on do their own stuff.
+
+`IOrderRepo` : will define a inteface for all `operation` we need to do, this will provide a `window` for `API` to interact with. Inside it will have `Create`, `Update`, `Check`, `Get`, `GetList` etc.
+
+What will happen when function inside `IOrderRepo` get called? For instance `Create`
+
+This will call to `CreateOrder.ts` which contain a function in `Queries` folder which will interact with our Database. Same with `Update`, `Check`, `Get`, `GetList` inside `IOrderRepo`.
+
+> The reason to do this is: **Single Responsibility Principle**, AKA 1 file, 1 class, do 1 thing.
+
+In this case:
+
+- `IOrderRepo.ts` only define all the interface method to other class to interact with.
+- `CreateOrder.ts` only call to `Queries` to interact with database (will come to this later)
+
+Domain module will contain all the `different` domain, combined all together, it become `DomainModule` will can be use by any class needed.
+
+### Queries
+
+This is where I interact with data model, and actual query to DynamoDB.
+
+- `OrderEntity`: Defined the schema what `field` and data type of an Order, like it `id`, `productName` and so on.
+- `OrderRepoProvider.ts`: Nestjs stuff, need to use inside `Module`
+- `Repo.ts`: This class will implement `IOrderRepo` above, which means all the interface method will defined here. Then inside each method will interact with DynamoDB.
+
+Therefore the whole picture will look like this:
+
+> API controller -> UpdateOrder/CreateOrder/GetOrder -> IOrderRepo interface -> OrderRepo.ts(Queries) -> Here will interact with DynamoDB and return data.
+
+Alright, when `Order`, `Payment` all done, will gel it up inside `QueriesModel.ts`.
+
+### End product
+
+When we break it all down, then inside API controller, my code will be in 1 line which is:
+
+```ts
+export class OrderController {
+  constructor(
+    //....all other stuff
+
+    // here inject all the stuff
+    private createOrder1: CreateOrder,
+    private updateOrder: UpdateOrder,
+    private getAllOrder: GetOrderList,
+    private getOneOrder: GetOrder,
+    private checkOrderStatus: CheckOrderStatus,
+  ) {}
+
+  // FETCH Order details using the OrderId
+  @Get('/:userId/:orderId')
+  async findOrderByOrderId(
+    @Param('orderId') orderId: string,
+    @Param('userId') userId: string,
+  ) {
+
+    //then inside here will be 1 line.
+    const res = await this.getOneOrder.Get(userId, orderId);
+
+    return {
+      //Here I return back the response
+    };
+  }
+
 ```
 
-## Running the app
+### Problems right now.
 
-```bash
-# development
-$ npm run start
+Right now I havent complete this, because I use DynamoDB single table design. I want to use `@nestjs-dynamoose` library. But all the example provided is without `PK, SK` only `hashkey` but no `rangeKey`. Therefore I havent figure it out.
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+Tried to use `TypeOrm` as well, seems like it didnt support Dynamodb yet. Therefore I stuck as well.
