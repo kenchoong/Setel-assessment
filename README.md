@@ -11,6 +11,10 @@ This project contain 2 parts. Frontend and CDK, both inside the relevant folder 
 - **Frontend Deploy:**: Vercel
 - **Aws service I used**: DynamoDB, Lambda, ApiGateway, SNS
 
+## Domain Driven Design 
+
+Try to use DDD. Can read [here](https://github.com/kenchoong/Setel-assessment/tree/some-experiments/cdk/lambda/order)
+
 ## TLDR
 
 In order to save your time, I have hosted this project in vercel, so you can take a look.
