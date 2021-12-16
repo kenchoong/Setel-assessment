@@ -15,7 +15,7 @@ This project contain 2 parts. Frontend and CDK, both inside the relevant folder 
 
 In order to save your time, I have hosted this project in vercel, so you can take a look.
 
-**Website:** [here](setel-assessment.vercel.app)
+**Website:** [here](https://setel-assessment.vercel.app/)
 
 > Just demonstrate how the data flow according to the assessment 
 ## How it works?
